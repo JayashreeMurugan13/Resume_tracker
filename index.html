@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Analyzer & Skill Gap Detector</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <!-- Authentication Page -->
+    <div id="auth-page" class="auth-container">
+        <div class="auth-split">
+            <!-- Left Side - Illustration -->
+            <div class="auth-left">
+                <div class="auth-illustration">
+                    <div class="floating-elements">
+                        <div class="element element-1"></div>
+                        <div class="element element-2"></div>
+                        <div class="element element-3"></div>
+                    </div>
+                    <div class="auth-content">
+                        <h1>AI Resume Analyzer</h1>
+                        <p>Analyze your resume, detect skill gaps, and boost your career prospects with AI-powered insights.</p>
+                        <div class="features">
+                            <div class="feature">
+                                <i class="fas fa-chart-line"></i>
+                                <span>ATS Score Analysis</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-brain"></i>
+                                <span>AI-Powered Insights</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-target"></i>
+                                <span>Skill Gap Detection</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Forms -->
+            <div class="auth-right">
+                <div class="auth-forms">
+                    <!-- Login Form -->
+                    <div id="login-form" class="form-container active">
+                        <div class="form-header">
+                            <h2>Welcome Back</h2>
+                            <p>Sign in to your account</p>
+                        </div>
+                        <form class="auth-form">
+                            <div class="input-group">
+                                <input type="email" id="login-email" required>
+                                <label for="login-email">Email Address</label>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="input-group">
+                                <input type="password" id="login-password" required>
+                                <label for="login-password">Password</label>
+                                <i class="fas fa-lock"></i>
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-options">
+                                <label class="checkbox">
+                                    <input type="checkbox">
+                                    <span class="checkmark"></span>
+                                    Remember me
+                                </label>
+                                <a href="#" class="forgot-password">Forgot Password?</a>
+                            </div>
+                            <button type="submit" class="auth-btn">
+                                <span>Sign In</span>
+                                <div class="loading-spinner"></div>
+                            </button>
+                        </form>
+                        <div class="form-footer">
+                            <p>Don't have an account? <a href="#" id="show-signup">Sign up</a></p>
+                        </div>
+                    </div>
+
+                    <!-- Sign Up Form -->
+                    <div id="signup-form" class="form-container">
+                        <div class="form-header">
+                            <h2>Create Account</h2>
+                            <p>Join thousands of job seekers</p>
+                        </div>
+                        <form class="auth-form">
+                            <div class="input-group">
+                                <input type="text" id="signup-name" required>
+                                <label for="signup-name">Full Name</label>
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="input-group">
+                                <input type="email" id="signup-email" required>
+                                <label for="signup-email">Email Address</label>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="input-group">
+                                <input type="password" id="signup-password" required>
+                                <label for="signup-password">Password</label>
+                                <i class="fas fa-lock"></i>
+                                <button type="button" class="password-toggle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill"></div>
+                                </div>
+                                <span class="strength-text">Password strength</span>
+                            </div>
+                            <button type="submit" class="auth-btn">
+                                <span>Create Account</span>
+                                <div class="loading-spinner"></div>
+                            </button>
+                        </form>
+                        <div class="form-footer">
+                            <p>Already have an account? <a href="#" id="show-login">Sign in</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="dashboard-container hidden">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-brain"></i>
+                    <span>AI Resume Analyzer</span>
+                </div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <div class="user-menu">
+                        <button class="user-btn" id="user-btn">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <span id="user-name">John Doe</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="user-dropdown" id="user-dropdown">
+                            <a href="#"><i class="fas fa-user"></i> Profile</a>
+                            <a href="#"><i class="fas fa-history"></i> History</a>
+                            <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <div class="container">
+                <!-- Welcome Section -->
+                <section class="welcome-section">
+                    <div class="welcome-content">
+                        <h1>Welcome back, <span id="welcome-name">John</span>! 👋</h1>
+                        <p>Ready to analyze your resume and discover new opportunities?</p>
+                    </div>
+                    <div class="stats-cards">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-file-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>12</h3>
+                                <p>Resumes Analyzed</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>85%</h3>
+                                <p>Avg ATS Score</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>24</h3>
+                                <p>Skills Improved</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Upload Section -->
+                <section class="upload-section">
+                    <div class="upload-grid">
+                        <!-- Resume Upload -->
+                        <div class="upload-card">
+                            <div class="upload-header">
+                                <h3><i class="fas fa-file-upload"></i> Upload Resume</h3>
+                                <p>Upload your resume in PDF or DOC format</p>
+                            </div>
+                            <div class="upload-area" id="resume-upload">
+                                <div class="upload-content">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <h4>Drag & drop your resume here</h4>
+                                    <p>or <span class="upload-link">browse files</span></p>
+                                    <small>Supports PDF, DOC, DOCX (Max 5MB)</small>
+                                </div>
+                                <input type="file" id="resume-file" accept=".pdf,.doc,.docx" hidden>
+                            </div>
+                            <div class="file-info" id="resume-info" style="display: none;">
+                                <div class="file-details">
+                                    <i class="fas fa-file-pdf"></i>
+                                    <div>
+                                        <span class="file-name"></span>
+                                        <span class="file-size"></span>
+                                    </div>
+                                </div>
+                                <button class="remove-file" id="remove-resume">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Job Description Upload -->
+                        <div class="upload-card">
+                            <div class="upload-header">
+                                <h3><i class="fas fa-briefcase"></i> Job Description</h3>
+                                <p>Paste or upload the job description</p>
+                            </div>
+                            <div class="job-input">
+                                <textarea id="job-description" placeholder="Paste the job description here or upload a file..."></textarea>
+                                <div class="job-upload-btn">
+                                    <input type="file" id="job-file" accept=".txt,.pdf,.doc,.docx" hidden>
+                                    <button type="button" onclick="document.getElementById('job-file').click()">
+                                        <i class="fas fa-upload"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analyze Button -->
+                    <div class="analyze-section">
+                        <button class="analyze-btn" id="analyze-btn" disabled>
+                            <span class="btn-text">Analyze Resume</span>
+                            <div class="btn-loading">
+                                <div class="loading-dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Results Section -->
+                <section class="results-section" id="results-section" style="display: none;">
+                    <div class="results-header">
+                        <h2>Analysis Results</h2>
+                        <button class="download-btn" id="download-report">
+                            <i class="fas fa-download"></i>
+                            Download Report
+                        </button>
+                    </div>
+
+                    <div class="results-grid">
+                        <!-- ATS Score -->
+                        <div class="result-card ats-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-pie"></i> ATS Score</h3>
+                            </div>
+                            <div class="ats-score">
+                                <div class="score-circle">
+                                    <svg class="progress-ring" width="120" height="120">
+                                        <circle class="progress-ring-circle" cx="60" cy="60" r="54"></circle>
+                                    </svg>
+                                    <div class="score-text">
+                                        <span class="score-number" id="ats-score">0</span>
+                                        <span class="score-label">%</span>
+                                    </div>
+                                </div>
+                                <div class="score-details">
+                                    <div class="score-item">
+                                        <span class="label">Keywords Match:</span>
+                                        <span class="value" id="keywords-match">0%</span>
+                                    </div>
+                                    <div class="score-item">
+                                        <span class="label">Format Score:</span>
+                                        <span class="value" id="format-score">0%</span>
+                                    </div>
+                                    <div class="score-item">
+                                        <span class="label">Experience Match:</span>
+                                        <span class="value" id="experience-match">0%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills Analysis -->
+                        <div class="result-card skills-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-cogs"></i> Skills Analysis</h3>
+                            </div>
+                            <div class="skills-content">
+                                <div class="skills-section">
+                                    <h4 class="skills-title matched">
+                                        <i class="fas fa-check-circle"></i>
+                                        Matched Skills (<span id="matched-count">0</span>)
+                                    </h4>
+                                    <div class="skills-tags" id="matched-skills"></div>
+                                </div>
+                                <div class="skills-section">
+                                    <h4 class="skills-title missing">
+                                        <i class="fas fa-exclamation-circle"></i>
+                                        Missing Skills (<span id="missing-count">0</span>)
+                                    </h4>
+                                    <div class="skills-tags" id="missing-skills"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="result-card recommendations-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-lightbulb"></i> Recommendations</h3>
+                            </div>
+                            <div class="recommendations-content" id="recommendations-content">
+                                <!-- Dynamic content -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- AI Assistant Chatbot -->
+    <div id="ai-assistant" class="ai-assistant">
+        <div class="assistant-toggle" id="assistant-toggle">
+            <i class="fas fa-robot"></i>
+            <span class="assistant-badge">AI Help</span>
+        </div>
+        <div class="assistant-chat" id="assistant-chat">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Assistant</span>
+                </div>
+                <button class="chat-close" id="chat-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        <p>👋 Hi! I'm your AI assistant. Ask me anything about resume analysis!</p>
+                        <div class="quick-questions">
+                            <button class="quick-btn" data-question="What does this website do?">What does this do?</button>
+                            <button class="quick-btn" data-question="How do I upload my resume?">How to upload?</button>
+                            <button class="quick-btn" data-question="What is ATS score?">ATS Score?</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-input-field" placeholder="Ask me anything...">
+                <button id="chat-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
